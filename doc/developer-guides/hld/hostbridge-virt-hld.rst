@@ -17,7 +17,6 @@ PCI Host Bridge and Hierarchy
 There is PCI host bridge emulation in DM. The bus hierarchy is determined by ``acrn-dm`` command line input. Using this command line, as an example::
 
         acrn-dm -A -m $mem_size -s 0:0,hostbridge \
-        -s 2,pci-gvt -G "$2" \
         -s 5,virtio-console,@stdio:stdio_port \
         -s 6,virtio-hyper_dmabuf \
         -s 3,virtio-blk,/home/acrn/UserVM.img \
