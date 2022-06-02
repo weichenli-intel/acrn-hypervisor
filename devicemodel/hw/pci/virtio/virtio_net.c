@@ -850,14 +850,14 @@ virtio_net_init(struct vmctx *ctx, struct pci_vdev *dev, char *opts)
 	unsigned char digest[16];
 	char nstr[80];
 	char tname[MAXCOMLEN + 1];
-	struct virtio_net *net;
+	struct virtio_net *net = NULL;
 	char *devopts = NULL;
 	char *name = NULL;
 	char *type = NULL;
 	char *mac_seed = NULL;
-	char *tmp;
-	char *vtopts;
-	char *opt;
+	char *tmp = NULL;
+	char *vtopts = NULL;
+	char *opt = NULL;
 	int mac_provided;
 	pthread_mutexattr_t attr;
 	int rc;
