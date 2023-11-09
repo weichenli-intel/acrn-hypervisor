@@ -1369,13 +1369,16 @@ int vdpy_parse_cmd_option(const char *opts)
 
 	error = 0;
 	vdpy.vscrs = calloc(VSCREEN_MAX_NUM, sizeof(struct vscreen));
+	if (!vdpy.vscrs) {
+		pr_err("%s, memory allocation for vscrs failed.", __func__);
+		return -1;
+	}
 	vdpy.vscrs_num = 0;
 
 	stropts = strdup(opts);
 	while ((str = strsep(&stropts, ",")) != NULL) {
 		vscr = vdpy.vscrs + vdpy.vscrs_num;
-		tmp = strcasestr(str, "geometry=");
-		if (str && strcasestr(str, "geometry=fullscreen")) {
+		if ((tmp = strcasestr(str, "geometry=fullscreen")) != NULL) {
 			snum = sscanf(tmp, "geometry=fullscreen:%d", &vscr->pscreen_id);
 			if (snum != 1) {
 				vscr->pscreen_id = 0;
@@ -1388,7 +1391,7 @@ int vdpy_parse_cmd_option(const char *opts)
 			pr_info("virtual display: fullscreen on monitor %d.\n",
 					vscr->pscreen_id);
 			vdpy.vscrs_num++;
-		} else if (str && strcasestr(str, "geometry=")) {
+		} else if ((tmp = strcasestr(str, "geometry=")) != NULL) {
 			snum = sscanf(tmp, "geometry=%dx%d+%d+%d",
 					&vscr->guest_width, &vscr->guest_height,
 					&vscr->org_x, &vscr->org_y);
